@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Monster Slayer</h1>
+    </header>
+    <div id="game">
+      <header>
+        <h2>Round {{ roundNo }}</h2>
+      </header>
+      <section id="monster" class="container">
+        <h2>Monster Health</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="monsterBarStyles"></div>
+        </div>
+      </section>
+      <section id="player" class="container">
+        <h2>Your Health</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="playerBarStyles"></div>
+        </div>
+      </section>
+      <section class="container" v-if="gameStatus!='running'">
+        <h2>Game over!</h2>
+        <h3 v-if="gameStatus=='win'">You Win</h3>
+        <h3 v-if="gameStatus=='lost'">You lost</h3>
+        <h3 v-if="gameStatus=='draw'">Draw!</h3>
+      </section>
+      <section id="controls" v-if="gameStatus=='running'">
+        <button @click="attackMonster">ATTACK</button>
+        <button :disabled="specialAttackButtonActivate" @click="specialAttackMonster">SPECIAL ATTACK</button>
+        <button @click="healPlayer">HEAL</button>
+        <button @click="surrenderPlayer">SURRENDER</button>
+      </section>
+      <section class="container" v-if="gameStatus!='running'">
+        <button @click="newGame">New Game</button>
+      </section>
+      <section id="log" class="container">
+        <h2>Battle Log</h2>
+        <ul>
+          <li v-for="log in battleLog">
+            <span>Round {{ log.round }}: {{ log.actionby }} -> {{ log.actionType }} -> {{ log.actionValue}}</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
